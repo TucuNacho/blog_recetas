@@ -1,6 +1,7 @@
 import { Col, Card, Button } from "react-bootstrap";
-
+import { useNavigate } from "react-router-dom";
 const CardProducto = () => {
+  const navigate = useNavigate();
   return (
       <Col md={4} lg={3} className="mb-3">
       <Card className="h-100">
@@ -20,11 +21,15 @@ const CardProducto = () => {
             <span className="fw-bold">Precio: $8500</span>
           </Card.Text>
         </Card.Body>
-        <Card.Footer className="text-end">
-          <Button variant="success" className="me-2">
+        <Card.Footer className="justify-content-between d-flex">
+          <Button variant="warning" className="text-light" >
+            Ver receta
+          </Button>
+          <Button variant="success" className=""onClick={() => navigate("/detalle")}>
             Ver más
           </Button>
         </Card.Footer>
+
       </Card>
     </Col>
   );

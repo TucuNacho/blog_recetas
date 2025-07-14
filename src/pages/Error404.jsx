@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import error from "../assets/error.jpg";
+import error from "../assets/error.avif";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -11,8 +11,6 @@ const Error404 = () => {
         alt="Error 404"
         style={{ maxWidth: '400px', width: '100%', borderRadius: '8px', marginBottom: '20px' }}
       />
-      <h2 className="mb-3">¡Uy! Esta receta no existe 🍽️</h2>
-      <p className="mb-4">Volvé al inicio y seguí cocinando con nosotros.</p>
       <button
         className="btn btn-success"
         onClick={() => navigate("/")}

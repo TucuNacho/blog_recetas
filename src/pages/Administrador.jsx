@@ -1,5 +1,9 @@
 import { Button, Table } from "react-bootstrap";
-const Administrado = () => {
+import { productosData } from "../data/productoPrueba";
+const Administrado = ({productos, setProductos}) => {
+  const cargarProductos = () => {
+    setProductos(productosData);
+  }
   return (
     <section className="container mainSection">
       <div className="d-flex justify-content-between align-items-center mt-5">
@@ -10,6 +14,7 @@ const Administrado = () => {
           </Button>
           <Button
             className="ms-2 btn btn-info text-light"
+            onClick={cargarProductos}
           >
             <i className="bg bi bi-database-fill-add"></i>
           </Button>
@@ -28,7 +33,7 @@ const Administrado = () => {
           </tr>
         </thead>
         <tbody>
-
+          {productos.map}
         </tbody>
       </Table>
     </section>

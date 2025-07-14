@@ -1,4 +1,4 @@
-import { Row, Col, Form, Button, Container } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 
 const DetalleProducto = () => {
   return (
