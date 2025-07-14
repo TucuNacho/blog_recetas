@@ -3,12 +3,12 @@ import { Row, Col, Container } from "react-bootstrap";
 const DetalleProducto = () => {
   return (
     <Container className="my-3">
-      <Row sx={1} md={2}>
+      <Row xs={1} md={2}>
         <Col>
           <img
             src="https://cdn7.kiwilimon.com/galeriahome/2026/1280x400/2026.jpg.webp"
             alt="Detalle del producto"
-            className="w-100 h-100"
+            className="img-fluid rounded"
           />
         </Col>
         <Col>

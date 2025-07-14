@@ -26,7 +26,7 @@ const Login = ({ setUser }) => {
   return (
     <section className="container my-3">
       <h1 className="text-center">Login</h1>
-      <Row md={2} sx={1}>
+      <Row md={2} xs={1}>
         <Col>
           <Form onSubmit={handleSubmit(iniciarSesion)}>
             <Form.Group className="mb-3" controlId="mail">

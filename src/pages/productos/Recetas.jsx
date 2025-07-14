@@ -3,7 +3,7 @@ import { Row, Col, Container } from "react-bootstrap";
 const Recetas = () => {
   return (
     <Container>
-      <Row sx={1}  className="my-3">
+      <Row xs={1}  className="my-3">
         <Col>
           <img
             src="https://cdn7.kiwilimon.com/galeriahome/2026/1280x400/2026.jpg.webp"
