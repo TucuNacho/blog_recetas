@@ -22,7 +22,7 @@ const CardProducto = () => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="justify-content-between d-flex">
-          <Button variant="warning" className="text-light" >
+          <Button variant="warning" className="text-light" onClick={() => navigate("/recetas")}>
             Ver receta
           </Button>
           <Button variant="success" className=""onClick={() => navigate("/detalle")}>

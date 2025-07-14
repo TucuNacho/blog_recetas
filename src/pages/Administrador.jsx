@@ -1,5 +1,6 @@
 import { Button, Table } from "react-bootstrap";
 import { productosData } from "../data/productoPrueba";
+import ItemProducto from "./productos/ItemProducto";
 const Administrado = ({productos, setProductos}) => {
   const cargarProductos = () => {
     setProductos(productosData);
@@ -33,7 +34,7 @@ const Administrado = ({productos, setProductos}) => {
           </tr>
         </thead>
         <tbody>
-          {productos.map}
+          {productos.map((producto, indice) => <ItemProducto key={producto.id} producto={producto} fila={indice+1}></ItemProducto>)}
         </tbody>
       </Table>
     </section>
