@@ -13,6 +13,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useState, useEffect } from "react";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
+
 function App() {
    const usuarioLogueado = sessionStorage.getItem("userKey") || false;
   const  productosLocalStorage= JSON.parse(localStorage.getItem("productos")) || []
@@ -21,17 +23,27 @@ function App() {
   useEffect(()=>{
     localStorage.setItem("productos", JSON.stringify(productos))
   }, [productos])
+  const agregarReceta=(nuevaReceta)=>{
+    nuevaReceta.id = uuidv4()
+    setProductos([...productos, nuevaReceta]);
+    return true
+  }
+  const borrarReceta=(idReceta)=>{
+    const recetaFiltrada= productos.filter((receta)=> receta.id !== idReceta)
+    setProductos(recetaFiltrada)
+    return true
+  }
   return (
     <>
       <BrowserRouter>
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin}/>
         <main>
           <Routes>
-            <Route path="/" element={<Inicio />} />
+            <Route path="/" element={<Inicio productos={productos}/>} />
             <Route path="/login" element={<Login setUser={setUsuarioAdmin}/>} />
             <Route path="/administrador" element={<Protector isAdmin={usuarioAdmin}></Protector>}>
-            <Route index element={<Administrador productos={productos} setProductos={setProductos}/>} />
-            <Route path="crear" element={<FormularioProducto />}></Route>
+            <Route index element={<Administrador productos={productos} setProductos={setProductos} borrar={borrarReceta}/>} />
+            <Route path="crear" element={<FormularioProducto agregarReceta={agregarReceta}/>}></Route>
             <Route path="editar" element={<FormularioProducto/>} ></Route>
             </Route>
             <Route path="/detalle" element={<DetalleProducto />} />
