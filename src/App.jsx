@@ -18,11 +18,11 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
   const productosLocalStorage =
-    JSON.parse(localStorage.getItem("productos")) || [];
+    JSON.parse(localStorage.getItem("recetasRolling")) || [];
   const [productos, setProductos] = useState(productosLocalStorage);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
   useEffect(() => {
-    localStorage.setItem("productos", JSON.stringify(productos));
+    localStorage.setItem("recetasRolling", JSON.stringify(productos));
   }, [productos]);
   const agregarReceta = (nuevaReceta) => {
     nuevaReceta.id = uuidv4();

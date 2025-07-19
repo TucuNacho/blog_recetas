@@ -77,7 +77,7 @@ const {
           </Form.Text>
           <Form.Text className="text-danger"></Form.Text>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formImagen">
+        <Form.Group className="mb-3 img-fluid" controlId="formImagen">
           <Form.Label>Imagen URL*</Form.Label>
           <Form.Control
             type="text"
