@@ -19,7 +19,7 @@ const {
     console.log("ID desde params:", id);
     if(titulo === "Editando Receta"){
       const recetaEditar= editarReceta(id)
-      setValue("nombreReceta", recetaEditar.nombreProducto);
+      setValue("nombreProducto", recetaEditar.nombreProducto);
       setValue("imagen", recetaEditar.imagen)
       setValue("categoria", recetaEditar.categoria)
       setValue("descripcion_breve", recetaEditar.descripcion_breve);
@@ -32,7 +32,7 @@ const {
         Swal.fire({
         title: "Producto creado!",
 
-        text:  `La ${receta.nombreReceta} fue creada correctamente!`,
+        text:  `La ${receta.nombreProducto} fue creada correctamente!`,
 
         icon: "success",
       });
@@ -43,7 +43,7 @@ const {
       if(recetaEditada(id, receta)){
         Swal.fire({
           title: "Producto editado!",
-          text: `La receta ${receta.nombreReceta} fue editada correctamente!`,
+          text: `La receta ${receta.nombreProducto} fue editada correctamente!`,
           icon: "success",
         }).then(()=>{
           navigator("/administrador");
@@ -60,7 +60,7 @@ const {
         <Form.Group className="mb-3" controlId="formNombreProdcuto">
           <Form.Label>Receta*</Form.Label>
           <Form.Control type="text" placeholder="Ej: Milanesa rellena de pure"
-          {...register("nombreReceta",{
+          {...register("nombreProducto",{
             required:"El nombre de la receta es obligatorio",
             minLength: {
               value: 3,
@@ -73,7 +73,7 @@ const {
           })}
           />
            <Form.Text className="text-danger">
-            {errors.nombreReceta?.message}
+            {errors.nombreProducto?.message}
           </Form.Text>
           <Form.Text className="text-danger"></Form.Text>
         </Form.Group>

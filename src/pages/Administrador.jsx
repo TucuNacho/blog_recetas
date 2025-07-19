@@ -32,7 +32,6 @@ const Administrado = ({ productos, setProductos, borrar }) => {
           <tr className="text-center">
             <th>Cod</th>
             <th>Producto</th>
-            <th>Precio</th>
             <th>URL de Imagen</th>
             <th>Categoria</th>
             <th>Opciones</th>
