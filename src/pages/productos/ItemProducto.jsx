@@ -1,5 +1,6 @@
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const ItemProducto = ({ producto, fila, borrar }) => {
   const eliminarReceta = () => {
@@ -66,13 +67,21 @@ const ItemProducto = ({ producto, fila, borrar }) => {
       <td>{producto.categoria}</td>
 
       <td className="text-center">
-        <Button variant="warning" className="me-lg-2">
-          <i className="bi bi-pencil-square"></i>
-        </Button>
+        <Row>
+          <Col xs={1} md={2}>
+            <Link
+              variant="warning"
+              className="me-lg-2 btn btn-warning mb-2"
+              to={`/administrador/editar/${producto.id}`}
+            >
+              <i className="bi bi-pencil-square"></i>
+            </Link>
 
-        <Button variant="danger" onClick={eliminarReceta}>
-          <i className="bi bi-trash"></i>
-        </Button>
+            <Button variant="danger" onClick={eliminarReceta}>
+              <i className="bi bi-trash"></i>
+            </Button>
+          </Col>
+        </Row>
       </td>
     </tr>
   );

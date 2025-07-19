@@ -1,16 +1,34 @@
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router";
 
-const FormularioProducto = ({agregarReceta}) => {
+const FormularioProducto = ({agregarReceta, editarReceta, titulo, recetaEditada}) => {
 const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
+  const {id} = useParams()
+  const navigator = useNavigate();
+  useEffect(()=>{
+    console.log("Valor de titulo:", titulo); // ← Agregá esto
+    console.log("ID desde params:", id);
+    if(titulo === "Editando Receta"){
+      const recetaEditar= editarReceta(id)
+      setValue("nombreReceta", recetaEditar.nombreProducto);
+      setValue("imagen", recetaEditar.imagen)
+      setValue("categoria", recetaEditar.categoria)
+      setValue("descripcion_breve", recetaEditar.descripcion_breve);
+      setValue("descripcion_amplia", recetaEditar.descripcion_amplia);
+    }
+  },[])
   const agregarRecetas=(receta)=>{
-    if(agregarReceta(receta)){
+    if(titulo === "Creando producto"){
+       if(agregarReceta(receta)){
         Swal.fire({
         title: "Producto creado!",
 
@@ -21,11 +39,22 @@ const {
       //resetear el formulario
       reset();
     }
+    }else {
+      if(recetaEditada(id, receta)){
+        Swal.fire({
+          title: "Producto editado!",
+          text: `La receta ${receta.nombreReceta} fue editada correctamente!`,
+          icon: "success",
+        }).then(()=>{
+          navigator("/administrador");
+        })
+      }
+    }
     }
 
   return (
     <section className="container mainSection">
-      <h1 className="display-4 mt-5">Nuevo producto</h1>
+      <h1 className="display-4 mt-5">{titulo}</h1>
       <hr />
       <Form className="my-4" onSubmit={handleSubmit(agregarRecetas)}>
         <Form.Group className="mb-3" controlId="formNombreProdcuto">
@@ -74,11 +103,11 @@ const {
           })}
           >
             <option value="">Seleccione una opcion</option>
-            <option value="carne y pollo">Carne y pollo</option>
-            <option value="bebidas">Bebidas</option>
-            <option value="postre">Postres</option>
-            <option value="ensaladas">Ensaladas</option>
-            <option value="otros">Otros...</option>
+            <option value="Carne y pollo">Carne y pollo</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Postre">Postres</option>
+            <option value="Ensaladas">Ensaladas</option>
+            <option value="Otros">Otros...</option>
           </Form.Select>
           <Form.Text className="text-danger">
             {errors.categoria?.message}
