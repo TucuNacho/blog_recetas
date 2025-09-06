@@ -21,44 +21,37 @@ const ItemProducto = ({ producto, fila, borrar }) => {
       cancelButtonText: "No, salir !",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Producto eliminado!",
+        if (borrar(producto.id)) {
+          Swal.fire({
+            title: "Producto eliminado",
 
-          text: `El producto ${producto.nombreProducto} ha sido eliminado.`,
+            text: `El producto ${producto.nombreReceta} fue eliminado correctamente`,
 
-          icon: "success",
-        });
-      }
-      if (borrar(producto.id)) {
-        Swal.fire({
-          title: "Producto eliminado",
-
-          text: `El producto ${producto.nombreProducto} fue eliminado correctamente`,
-
-          icon: "success",
-        });
+            icon: "success",
+          });
       } else {
         Swal.fire({
           title: "Ocurrio un error",
 
-          text: `El producto ${producto.nombreProducto} no pudo ser eliminado.`,
+          text: `El producto ${producto.nombreReceta} no pudo ser eliminado.`,
 
           icon: "error",
         });
       }
+    }
     });
   };
   return (
     <tr>
       <td className="text-center">{fila}</td>
 
-      <td>{producto.nombreProducto}</td>
+      <td>{producto.nombreReceta}</td>
 
       <td className="text-center">
         <img
           src={producto.imagen}
           className="img-admin"
-          alt={producto.nombreProducto}
+          alt={producto.nombreReceta}
         ></img>
       </td>
 
