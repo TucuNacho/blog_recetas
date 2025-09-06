@@ -114,7 +114,7 @@ const {
           </Form.Text>
           <Form.Text className="text-danger"></Form.Text>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formImagen">
+        <Form.Group className="mb-3" controlId="formDescripcion_breve">
           <Form.Label>Descripción breve*</Form.Label>
           <Form.Control
             type="text"
@@ -137,7 +137,7 @@ const {
           </Form.Text>
           <Form.Text className="text-danger"></Form.Text>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formImagen">
+        <Form.Group className="mb-3" controlId="formDescripcion_amplia">
           <Form.Label>Descripción Amplia*</Form.Label>
           <Form.Control
             type="text"

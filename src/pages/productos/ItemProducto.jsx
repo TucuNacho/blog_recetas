@@ -54,12 +54,10 @@ const ItemProducto = ({ producto, fila, borrar }) => {
 
       <td>{producto.nombreProducto}</td>
 
-      <td className="text-end">${producto.precio}</td>
-
       <td className="text-center">
         <img
           src={producto.imagen}
-          className="img-thumbnail"
+          className="img-admin"
           alt={producto.nombreProducto}
         ></img>
       </td>

@@ -52,6 +52,7 @@ function App() {
     setProductos(recetaEditada);
     return true;
   }
+
   return (
     <>
       <BrowserRouter>
@@ -97,8 +98,8 @@ function App() {
                 }
               ></Route>
             </Route>
-            <Route path="/detalle" element={<DetalleProducto />} />
-            <Route path="/recetas" element={<Recetas />} />
+            <Route path="/detalle/:id" element={<DetalleProducto buscarReceta={prepararReceta} />} />
+            <Route path="/recetas/:id" element={<Recetas verReceta={prepararReceta} />} />
             <Route path="*" element={<Error404></Error404>}></Route>
           </Routes>
         </main>

@@ -1,13 +1,20 @@
+import { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 
-const Recetas = () => {
+const Recetas = ({verReceta}) => {
+  const[receta, setReceta] = useState()
+  const {id} = useParams();
+  useEffect(() => {
+    const recetaEncontrada = verReceta(id)
+    setReceta(recetaEncontrada);
+  },[])
   return (
     <Container>
       <Row xs={1}  className="my-3">
         <Col>
           <img
-            src="https://cdn7.kiwilimon.com/galeriahome/2026/1280x400/2026.jpg.webp"
-            alt="milanesa rellena de pure"
+            src={receta.imagen}
+            alt={receta.nombreProducto}
             className="w-100"
           />
         </Col>
@@ -15,13 +22,9 @@ const Recetas = () => {
 
       <Row>
         <Col>
-          <h1>Milanesa rellena de pure</h1>
+          <h1>{receta.nombreProducto}</h1>
           <p>
-            ¿Te encanta la receta casera de milanesas con puré? Entonces estas
-            Milanesas Rellenas de Puré de Papa se convertirá en tu platillo
-            favorito. y ¿qué mejor que combinar la guarnición en el plato
-            fuerte? Disfruta de estas Milanesas Rellenas de Puré de Papa para la
-            siguiente comida que vayas a cocinar.
+            {receta.descripcion_amplia}
           </p>
         </Col>
       </Row>
@@ -34,7 +37,7 @@ const Recetas = () => {
                 src="https://cdn7.kiwilimon.com/ingredientes/40/50x50/40.png.webp"
                 alt="agua"
               />
-              2 litros de agua, para puré
+              
             </li>
             <li>
               <img

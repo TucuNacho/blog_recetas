@@ -1,5 +1,5 @@
 import { Col, Card, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const CardProducto = ({receta}) => {
   const navigate = useNavigate();
   return (
@@ -22,9 +22,9 @@ const CardProducto = ({receta}) => {
           <Button variant="warning" className="text-light" onClick={() => navigate("/recetas")}>
             Ver receta
           </Button>
-          <Button variant="success" className=""onClick={() => navigate("/detalle")}>
+          <Link to={`/detalle/${receta.id}`} className="btn btn-primary">
             Ver más
-          </Button>
+          </Link>
         </Card.Footer>
 
       </Card>
