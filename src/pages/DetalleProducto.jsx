@@ -6,7 +6,7 @@ const DetalleProducto = ({ buscarReceta }) => {
   const { id } = useParams();
   const [receta, setReceta] = useState([]);
   useEffect(() => {
-    const recetaEncontrada= buscarReceta(id)
+    const recetaEncontrada = buscarReceta(id);
     setReceta(recetaEncontrada);
   }, []);
   return (
@@ -20,11 +20,13 @@ const DetalleProducto = ({ buscarReceta }) => {
           />
         </Col>
         <Col>
-          <h1>{receta.nombreProducto}</h1>
+          <h1>{receta.nombreReceta}</h1>
           <p>
-           {receta.descripcion_amplia}
+            <strong> Descripcion de la receta: </strong>
+            {receta.descripcion_amplia}
           </p>
-          <strong>Categoría: </strong>{receta.categoria}
+          <strong>Categoría: </strong>
+          {receta.categoria}
         </Col>
       </Row>
     </Container>

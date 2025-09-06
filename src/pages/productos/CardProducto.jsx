@@ -19,7 +19,7 @@ const CardProducto = ({receta}) => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="justify-content-between d-flex">
-          <Button variant="warning" className="text-light" onClick={() => navigate("/recetas")}>
+          <Button variant="warning" className="text-light" onClick={() => navigate(`/recetas/${receta.id}`)}>
             Ver receta
           </Button>
           <Link to={`/detalle/${receta.id}`} className="btn btn-primary">

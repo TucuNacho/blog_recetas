@@ -181,8 +181,26 @@ const FormularioProducto = ({
           />
           <Form.Text className="text-danger"></Form.Text>
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formMetodoPreparacion">
+          <Form.Label>Metodo de preparacion*</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Ej: 1. Sazoná la carne con sal y pimienta de ambos lados. 2. Colocá una loncha de jamón y queso en el centro de cada milanesa y enrollá presionando los bordes para sellar. 3. Pasá cada milanesa por huevo batido y luego por pan rallado, asegurándote de que quede bien cubierta. 4. Freí en aceite caliente hasta que esté dorada y crujiente por ambos lados. 5. Para el puré, herví las papas hasta que estén tiernas, pisalas y agregá manteca, leche tibia y condimentá a gusto. 6. Serví la milanesa rellena acompañada del cremoso puré de papas y decorá con perejil fresco picado."
+            as="textarea"
+            rows={4}
+            {...register("metodoPreparacion", {
+              required: "El metodo de preparacion es obligatorio",
+              minLength: {
+                value: 10,
+                message:
+                  "La descripción amplia debe tener al menos 10 caracteres",
+              },
+            })}
+          />
+          <Form.Text className="text-danger"></Form.Text>
+        </Form.Group>
         <Form.Text className="text-danger">
-          {errors.descripcion_amplia?.message}
+          {errors.metodoPreparacion?.message}
         </Form.Text>
         <IngredientesForm
           ingredientes={ingredientes}
