@@ -63,7 +63,7 @@ const ItemProducto = ({ producto, fila, borrar }) => {
             <Link
               variant="warning"
               className="me-lg-2 btn btn-warning mb-2"
-              to={`/administrador/editar/${producto.id}`}
+              to={`/administrador/editar/${producto._id}`}
             >
               <i className="bi bi-pencil-square"></i>
             </Link>

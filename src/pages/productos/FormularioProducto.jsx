@@ -3,15 +3,12 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import IngredientesForm from "./IngredientesForm";
-const FormularioProducto = ({
-  agregarReceta,
-  editarReceta,
-  titulo,
-  recetaEditada
-}) => {
-  const [cargado, setCargado] = useState(false);
-  const [ingredientes, setIngredientes] = useState([]);
+import {
+  crearRecetas,
+  leerRecetaPorId,
+  editarRecetas,
+} from "../../helpers/queries";
+const FormularioProducto = ({ titulo }) => {
   const {
     register,
     handleSubmit,
@@ -22,26 +19,37 @@ const FormularioProducto = ({
   const { id } = useParams();
   const navigator = useNavigate();
   useEffect(() => {
-    if (titulo === "Editando Receta" && !cargado) {
-      const recetaEditar = editarReceta(id);
-      setValue("nombreReceta", recetaEditar.nombreReceta);
-      setValue("imagen", recetaEditar.imagen);
-      setValue("categoria", recetaEditar.categoria);
-      setValue("descripcion_breve", recetaEditar.descripcion_breve);
-      setValue("descripcion_amplia", recetaEditar.descripcion_amplia);
-      setIngredientes(recetaEditar.ingredientes || []);
-      setCargado(true)
-    }
-  }, [titulo, id, editarReceta, setValue, setIngredientes]);
-  const agregarRecetas = (receta) => {
-    const recetaConIngredientes ={
+    const obtenerReceta = async () => {
+      if (titulo === "Editando Receta") {
+        const respuesta = await leerRecetaPorId(id);
+        if (respuesta.status === 200) {
+          const recetaBuscada = await respuesta.json();
+          setValue("nombreReceta", recetaBuscada.nombreReceta);
+          setValue("imagen", recetaBuscada.imagen);
+          setValue("categoria", recetaBuscada.categoria);
+          setValue("descripcion_breve", recetaBuscada.descripcion_breve);
+          setValue("descripcion_amplia", recetaBuscada.descripcion_amplia);
+          setValue(
+            "ingredientes",
+            recetaBuscada.ingredientes
+              ? recetaBuscada.ingredientes.join(", ")
+              : ""
+          );
+          setValue("metodoPreparacion", recetaBuscada.metodoPreparacion);
+        }
+      }
+    };
+    obtenerReceta();
+  }, [titulo, id, setValue]);
+
+  const agregarRecetas = async (receta) => {
+    const recetaParaEnviar = {
       ...receta,
-      ingredientes,
-    }
-    if (titulo === "Creando producto") {
-    reset()
-    setIngredientes([])
-      if (agregarReceta(recetaConIngredientes)) {
+      ingredientes: receta.ingredientes.split(",").map((i) => i.trim()),
+    };
+    if (titulo === "Creando receta") {
+      const respuesta = await crearRecetas(receta);
+      if (respuesta.status === 201) {
         Swal.fire({
           title: "Producto creado!",
 
@@ -49,13 +57,13 @@ const FormularioProducto = ({
 
           icon: "success",
         }).then(() => {
-          reset()
-          setIngredientes([])
+          reset();
           navigator("/administrador");
         });
       }
     } else {
-      if (recetaEditada(id, recetaConIngredientes)) {
+      const respuesta = await editarRecetas(receta, id);
+      if (respuesta.status === 200) {
         Swal.fire({
           title: "Producto editado!",
           text: `La receta ${receta.nombreReceta} fue editada correctamente!`,
@@ -181,6 +189,9 @@ const FormularioProducto = ({
           />
           <Form.Text className="text-danger"></Form.Text>
         </Form.Group>
+        <Form.Text className="text-danger">
+          {errors.descripcion_amplia?.message}
+        </Form.Text>
         <Form.Group className="mb-3" controlId="formMetodoPreparacion">
           <Form.Label>Metodo de preparacion*</Form.Label>
           <Form.Control
@@ -193,7 +204,7 @@ const FormularioProducto = ({
               minLength: {
                 value: 10,
                 message:
-                  "La descripción amplia debe tener al menos 10 caracteres",
+                  "El metodo de preparacion debe tener al menos 10 caracteres",
               },
             })}
           />
@@ -202,10 +213,27 @@ const FormularioProducto = ({
         <Form.Text className="text-danger">
           {errors.metodoPreparacion?.message}
         </Form.Text>
-        <IngredientesForm
-          ingredientes={ingredientes}
-          setIngredientes={setIngredientes}
-        ></IngredientesForm>
+
+        <Form.Group className="mb-3" controlId="formIngredientes">
+          <Form.Label>Ingredientes*</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Huevos, papas, etc..."
+            rows={4}
+            {...register("ingredientes", {
+              required: "Los ingredientes son obligatorios",
+              minLength: {
+                value: 10,
+                message:
+                  "El metodo de preparacion debe tener al menos 10 caracteres",
+              },
+            })}
+          />
+          <Form.Text className="text-danger"></Form.Text>
+        </Form.Group>
+        <Form.Text className="text-danger">
+          {errors.ingredientes?.message}
+        </Form.Text>
         <Button type="submit" variant="success">
           Guardar
         </Button>
@@ -215,3 +243,25 @@ const FormularioProducto = ({
 };
 
 export default FormularioProducto;
+
+{
+  /* <IngredientesForm
+          ingredientes={ingredientes}
+          setIngredientes={setIngredientes}
+        ></IngredientesForm> */
+}
+// const [cargado, setCargado] = useState(false);
+// const [ingredientes, setIngredientes] = useState([]);
+// useEffect(() => {
+//   if (titulo === "Editando Receta" && !cargado) {
+//     const recetaEditar = editarReceta(id);
+//     setValue("nombreReceta", recetaEditar.nombreReceta);
+//     setValue("imagen", recetaEditar.imagen);
+//     setValue("categoria", recetaEditar.categoria);
+//     setValue("descripcion_breve", recetaEditar.descripcion_breve);
+//     setValue("descripcion_amplia", recetaEditar.descripcion_amplia);
+//     // setIngredientes(recetaEditar.ingredientes || []);
+//     // setCargado(true)
+//   }
+// }, [titulo, id, editarReceta, setValue, setIngredientes]);
+// import IngredientesForm from "./IngredientesForm";

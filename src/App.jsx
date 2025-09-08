@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import IngredientesForm from "./pages/productos/IngredientesForm";
+// import IngredientesForm from "./pages/productos/IngredientesForm";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
@@ -85,7 +85,7 @@ function App() {
                 element={
                   <FormularioProducto
                     agregarReceta={agregarReceta}
-                    titulo={"Creando producto"}
+                    titulo={"Creando receta"}
                   />
                 }
               ></Route>
