@@ -10,9 +10,7 @@ const Inicio = () => {
   },[]);
 
   const obtenerReceta = async () => {
-    console.log("🚀 Iniciando petición...");
     const respuesta = await leerReceta();
-    console.log("📡 Respuesta:", respuesta);
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
       setListaRecetas(datos);

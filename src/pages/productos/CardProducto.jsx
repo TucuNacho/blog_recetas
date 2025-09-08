@@ -22,7 +22,7 @@ const CardProducto = ({receta}) => {
           <Button variant="warning" className="text-light" onClick={() => navigate(`/recetas/${receta.id}`)}>
             Ver receta
           </Button>
-          <Link to={`/detalle/${receta.id}`} className="btn btn-primary">
+          <Link to={`/detalle/${receta._id}`} className="btn btn-primary">
             Ver más
           </Link>
         </Card.Footer>
