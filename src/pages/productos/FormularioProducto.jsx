@@ -46,9 +46,13 @@ const FormularioProducto = ({ titulo }) => {
     const recetaParaEnviar = {
       ...receta,
       ingredientes: receta.ingredientes.split(",").map((i) => i.trim()),
+      metodoPreparacion: receta.metodoPreparacion.replace(/\n/g, " "),
+      descripcion_breve: receta.descripcion_breve.replace(/\n/g, " "),
+      descripcion_amplia: receta.descripcion_amplia.replace(/\n/g, " "),
     };
     if (titulo === "Creando receta") {
-      const respuesta = await crearRecetas(receta);
+      console.log(recetaParaEnviar);
+      const respuesta = await crearRecetas(recetaParaEnviar);
       if (respuesta.status === 201) {
         Swal.fire({
           title: "Producto creado!",
@@ -62,7 +66,7 @@ const FormularioProducto = ({ titulo }) => {
         });
       }
     } else {
-      const respuesta = await editarRecetas(receta, id);
+      const respuesta = await editarRecetas(recetaParaEnviar, id);
       if (respuesta.status === 200) {
         Swal.fire({
           title: "Producto editado!",
@@ -243,25 +247,3 @@ const FormularioProducto = ({ titulo }) => {
 };
 
 export default FormularioProducto;
-
-{
-  /* <IngredientesForm
-          ingredientes={ingredientes}
-          setIngredientes={setIngredientes}
-        ></IngredientesForm> */
-}
-// const [cargado, setCargado] = useState(false);
-// const [ingredientes, setIngredientes] = useState([]);
-// useEffect(() => {
-//   if (titulo === "Editando Receta" && !cargado) {
-//     const recetaEditar = editarReceta(id);
-//     setValue("nombreReceta", recetaEditar.nombreReceta);
-//     setValue("imagen", recetaEditar.imagen);
-//     setValue("categoria", recetaEditar.categoria);
-//     setValue("descripcion_breve", recetaEditar.descripcion_breve);
-//     setValue("descripcion_amplia", recetaEditar.descripcion_amplia);
-//     // setIngredientes(recetaEditar.ingredientes || []);
-//     // setCargado(true)
-//   }
-// }, [titulo, id, editarReceta, setValue, setIngredientes]);
-// import IngredientesForm from "./IngredientesForm";
