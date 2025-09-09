@@ -51,7 +51,6 @@ const FormularioProducto = ({ titulo }) => {
       descripcion_amplia: receta.descripcion_amplia.replace(/\n/g, " "),
     };
     if (titulo === "Creando receta") {
-      console.log(recetaParaEnviar);
       const respuesta = await crearRecetas(recetaParaEnviar);
       if (respuesta.status === 201) {
         Swal.fire({

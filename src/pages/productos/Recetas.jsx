@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { useParams } from "react-router";
-
+import { leerRecetaPorId } from "../../helpers/queries";
 const Recetas = ({ verReceta }) => {
   const [receta, setReceta] = useState(null);
   const { id } = useParams();
   useEffect(() => {
-    const recetaEncontrada = verReceta(id);
-    setReceta(recetaEncontrada);
-  }, [id, verReceta]);
+    obtenerReceta();
+  }, []);
 
+  const obtenerReceta = async () => {
+    const respuesta = await leerRecetaPorId(id);
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      setReceta(datos);
+    } else {
+      console.info("Ocurrio un error al buscar las recetas");
+    }
+  };
   if (!receta) {
     return (
       <Container>
