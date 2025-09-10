@@ -2,7 +2,25 @@ import { Button, Table, Row, Col } from "react-bootstrap";
 import { productosData } from "../data/productoPrueba";
 import ItemProducto from "./productos/ItemProducto";
 import { Link } from "react-router-dom";
-const Administrado = ({ productos, setProductos, borrar }) => {
+import { leerReceta } from "../helpers/queries";
+import { useEffect, useState } from "react";
+const Administrado = ({ setProductos, borrar }) => {
+  const [listaRecetas, setListaRecetas] = useState([]);
+
+  useEffect(()=>{
+    obtenerReceta()
+  })
+
+  const obtenerReceta = async () => {
+    const respuesta = await leerReceta();
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      setListaRecetas(datos);
+    } else {
+      console.info("Ocurrio un error al buscar las recetas");
+    }
+  };
+
   const cargarProductos = () => {
     setProductos(productosData);
   };
@@ -30,20 +48,26 @@ const Administrado = ({ productos, setProductos, borrar }) => {
       <Table responsive striped bordered hover>
         <thead>
           <tr className="text-center">
+<<<<<<< HEAD
             <th>Cod</th>
             <th>Producto</th>
+=======
+            <th>Filas</th>
+            <th>Recetas</th>
+>>>>>>> dev
             <th>URL de Imagen</th>
             <th>Categoria</th>
             <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-          {productos.map((producto, indice) => (
+          {listaRecetas.map((producto, indice) => (
             <ItemProducto
-              key={producto.id}
+              key={producto._id}
               producto={producto}
               fila={indice + 1}
               borrar={borrar}
+              setListaRecetas={setListaRecetas}
             ></ItemProducto>
           ))}
         </tbody>

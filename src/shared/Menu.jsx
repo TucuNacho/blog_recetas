@@ -12,7 +12,7 @@ const Menu = ({ userAdmin, setUsuarioAdmin }) => {
     navigate("/login");
   };
   return (
-    <Navbar expand="lg" className="bg-body-verde mb-3">
+    <Navbar expand="lg" bg="secondary" variant="dark">
       <Container>
         <Navbar.Brand href="/" className="text-light fw-bold">
           RecetasRolling

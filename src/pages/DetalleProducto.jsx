@@ -1,32 +1,53 @@
-import { Row, Col, Container } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Row, Col, Container , Button} from "react-bootstrap";
+import { useParams } from "react-router";
+import { leerRecetaPorId } from "../helpers/queries";
+import { useNavigate } from "react-router";
 
 const DetalleProducto = () => {
+  const { id } = useParams();
+  const [receta, setReceta] = useState({});
+  useEffect(() => {
+    obtenerReceta();
+  }, []);
+  const navigate = useNavigate();
+
+  const obtenerReceta = async () => {
+    const respuesta = await leerRecetaPorId(id);
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      setReceta(datos);
+    } else {
+      console.info("Ocurrio un error al buscar las recetas");
+    }
+  };
   return (
     <Container className="my-3">
       <Row xs={1} md={2}>
         <Col>
           <img
-            src="https://cdn7.kiwilimon.com/galeriahome/2026/1280x400/2026.jpg.webp"
-            alt="Detalle del producto"
+            src={receta.imagen}
+            alt={receta.nombreProducto}
             className="img-fluid rounded"
           />
         </Col>
         <Col>
-          <h1>Milanesa rellena con pure</h1>
+          <h1>{receta.nombreReceta}</h1>
           <p>
-            Una deliciosa milanesa de carne tierna, cuidadosamente rellena con
-            jamón cocido y queso derretido que se funde en cada bocado. Empanada
-            con pan rallado crujiente y dorada a la perfección, esta milanesa es
-            el equilibrio justo entre textura y sabor. Acompañada por un suave y
-            cremoso puré de papas casero, hecho con manteca y un toque de leche,
-            es un plato reconfortante que evoca lo mejor de la cocina familiar.
-            Perfecto para un almuerzo abundante o una cena que deje satisfecho
-            el corazón y el estómago.
+            <strong> Descripcion de la receta: </strong>
+            {receta.descripcion_amplia}
           </p>
+          <strong>Categoría: </strong>
+          {receta.categoria}
           <p>
-            <strong>Precio: </strong>$8500
+            <em>Receta recomendada para compartir en familia 🍴</em>
           </p>
-          <strong>Categoría: </strong>Carne y Pollo
+          <Button
+            variant="primary"
+            onClick={() => navigate(`/recetas/${receta._id}`)}
+          >
+            Ver receta completa
+          </Button>
         </Col>
       </Row>
     </Container>

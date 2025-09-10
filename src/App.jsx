@@ -14,16 +14,13 @@ import { useState, useEffect } from "react";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+// import IngredientesForm from "./pages/productos/IngredientesForm";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
-  const productosLocalStorage =
-    JSON.parse(localStorage.getItem("recetasRolling")) || [];
-  const [productos, setProductos] = useState(productosLocalStorage);
+  const [productos, setProductos] = useState([]);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
-  useEffect(() => {
-    localStorage.setItem("recetasRolling", JSON.stringify(productos));
-  }, [productos]);
+
   const agregarReceta = (nuevaReceta) => {
     nuevaReceta.id = uuidv4();
     setProductos([...productos, nuevaReceta]);
@@ -38,27 +35,27 @@ function App() {
     const recetaEditar = productos.find((receta) => receta.id === idReceta);
     return recetaEditar;
   };
-  const editarReceta =(idReceta, recetaActualizada)=>{
-    const recetaEditada= productos.map((receta)=>{
-      if(receta.id === idReceta){
-        return{
+  const editarReceta = (idReceta, recetaActualizada) => {
+    const recetaEditada = productos.map((receta) => {
+      if (receta.id === idReceta) {
+        return {
           ...receta,
-          ...recetaActualizada
-        }
-      }else {
+          ...recetaActualizada,
+        };
+      } else {
         return receta;
       }
-    })
+    });
     setProductos(recetaEditada);
     return true;
-  }
+  };
   return (
-    <>
+    <div className="bg-dark text-light min-vh-100">
       <BrowserRouter>
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin} />
         <main>
           <Routes>
-            <Route path="/" element={<Inicio productos={productos} />} />
+            <Route path="/" element={<Inicio recetas={productos} />} />
             <Route
               path="/login"
               element={<Login setUser={setUsuarioAdmin} />}
@@ -82,7 +79,7 @@ function App() {
                 element={
                   <FormularioProducto
                     agregarReceta={agregarReceta}
-                    titulo={"Creando producto"}
+                    titulo={"Creando receta"}
                   />
                 }
               ></Route>
@@ -97,14 +94,20 @@ function App() {
                 }
               ></Route>
             </Route>
-            <Route path="/detalle" element={<DetalleProducto />} />
-            <Route path="/recetas" element={<Recetas />} />
+            <Route
+              path="/detalle/:id"
+              element={<DetalleProducto buscarReceta={prepararReceta} />}
+            />
+            <Route
+              path="/recetas/:id"
+              element={<Recetas verReceta={prepararReceta} />}
+            />
             <Route path="*" element={<Error404></Error404>}></Route>
           </Routes>
         </main>
         <Footer></Footer>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

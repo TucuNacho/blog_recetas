@@ -1,8 +1,9 @@
 import { Button, Row, Col } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { borrarReceta, leerReceta } from "../../helpers/queries";
 
-const ItemProducto = ({ producto, fila, borrar }) => {
+const ItemProducto = ({ producto, fila, setListaRecetas }) => {
   const eliminarReceta = () => {
     Swal.fire({
       title: "Eliminar receta?",
@@ -19,32 +20,29 @@ const ItemProducto = ({ producto, fila, borrar }) => {
 
       confirmButtonText: "Si, borrar receta!",
       cancelButtonText: "No, salir !",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Producto eliminado!",
+        const respuesta = await borrarReceta(producto._id)
+        if (respuesta.status === 200) {
+          Swal.fire({
+            title: "Producto eliminado",
 
-          text: `El producto ${producto.nombreProducto} ha sido eliminado.`,
+            text: `El producto ${producto.nombreReceta} fue eliminado correctamente`,
 
-          icon: "success",
-        });
-      }
-      if (borrar(producto.id)) {
-        Swal.fire({
-          title: "Producto eliminado",
+            icon: "success",
+          });
+          const respuestaReceta = await leerReceta()
+          const recetaActualizada= await respuestaReceta.json()
+          setListaRecetas(recetaActualizada)
+        } else {
+          Swal.fire({
+            title: "Ocurrio un error",
 
-          text: `El producto ${producto.nombreProducto} fue eliminado correctamente`,
+            text: `El producto ${producto.nombreReceta} no pudo ser eliminado.`,
 
-          icon: "success",
-        });
-      } else {
-        Swal.fire({
-          title: "Ocurrio un error",
-
-          text: `El producto ${producto.nombreProducto} no pudo ser eliminado.`,
-
-          icon: "error",
-        });
+            icon: "error",
+          });
+        }
       }
     });
   };
@@ -52,14 +50,18 @@ const ItemProducto = ({ producto, fila, borrar }) => {
     <tr>
       <td className="text-center">{fila}</td>
 
+<<<<<<< HEAD
       <td>{producto.nombreProducto}</td>
 
+=======
+      <td>{producto.nombreReceta}</td>
+>>>>>>> dev
 
       <td className="text-center">
         <img
           src={producto.imagen}
-          className="img-thumbnail"
-          alt={producto.nombreProducto}
+          className="img-admin"
+          alt={producto.nombreReceta}
         ></img>
       </td>
 
@@ -71,7 +73,7 @@ const ItemProducto = ({ producto, fila, borrar }) => {
             <Link
               variant="warning"
               className="me-lg-2 btn btn-warning mb-2"
-              to={`/administrador/editar/${producto.id}`}
+              to={`/administrador/editar/${producto._id}`}
             >
               <i className="bi bi-pencil-square"></i>
             </Link>
