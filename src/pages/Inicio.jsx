@@ -1,9 +1,11 @@
 import CardProducto from "./productos/CardProducto";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { leerReceta } from "../helpers/queries";
-const Inicio = ({ recetas }) => {
+const Inicio = () => {
   const [listaRecetas, setListaRecetas] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+
   const categorias = [
     "Carne y pollo",
     "Bebidas",
@@ -11,6 +13,11 @@ const Inicio = ({ recetas }) => {
     "Ensaladas",
     "Otros...",
   ];
+  const recetasFiltradas = categoriaSeleccionada
+    ? listaRecetas.filter(
+        (receta) => receta.categoria === categoriaSeleccionada
+      )
+    : listaRecetas;
   useEffect(() => {
     obtenerReceta();
   }, []);
@@ -38,22 +45,27 @@ const Inicio = ({ recetas }) => {
           <hr></hr>
           <h2 className="text-center">Pollo y Carne</h2>
         </div>
-        {categorias.map((categoria) => {
-          const categoriaReceta = listaRecetas.filter(
-            (receta) => receta.categoria === categoria
-          );
-          if (categoriaReceta.length === 0) return null
-          return (
-            <div key={categoria} className="my-4">
-              <h2>{categoria}</h2>
-              <Row>
-                {categoriaReceta.map((receta) => (
-                  <CardProducto key={receta._id} receta={receta}></CardProducto>
-                ))}
-              </Row>
-            </div>
-          );
-        })}
+        <Form.Select
+          value={categoriaSeleccionada}
+          onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+          className="my-3"
+        >
+          <option value="">Todas las categorías</option>
+          {categorias.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </Form.Select>
+        {recetasFiltradas.length === 0 ? (
+          <p>No hay recetas de esa categoria.</p>
+        ) : (
+          <Row>
+            {recetasFiltradas.map((receta) => (
+              <CardProducto key={receta._id} receta={receta}></CardProducto>
+            ))}
+          </Row>
+        )}
       </Container>
     </section>
   );
