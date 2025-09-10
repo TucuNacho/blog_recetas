@@ -18,14 +18,8 @@ import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const usuarioLogueado = sessionStorage.getItem("userKey") || false;
-  const productosLocalStorage =
-    JSON.parse(localStorage.getItem("recetasRolling")) || [];
-  const [productos, setProductos] = useState(productosLocalStorage);
+  const [productos, setProductos] = useState([]);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
-
-  useEffect(() => {
-    localStorage.setItem("recetasRolling", JSON.stringify(productos));
-  }, [productos]);
 
   const agregarReceta = (nuevaReceta) => {
     nuevaReceta.id = uuidv4();
@@ -56,12 +50,12 @@ function App() {
     return true;
   };
   return (
-    <>
+    <div className="bg-dark text-light min-vh-100">
       <BrowserRouter>
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin} />
         <main>
           <Routes>
-            <Route path="/" element={<Inicio productos={productos} />} />
+            <Route path="/" element={<Inicio recetas={productos} />} />
             <Route
               path="/login"
               element={<Login setUser={setUsuarioAdmin} />}
@@ -113,7 +107,7 @@ function App() {
         </main>
         <Footer></Footer>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

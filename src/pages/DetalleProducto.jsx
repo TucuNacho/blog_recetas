@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container , Button} from "react-bootstrap";
 import { useParams } from "react-router";
 import { leerRecetaPorId } from "../helpers/queries";
+import { useNavigate } from "react-router";
 
-const DetalleProducto = ({ buscarReceta }) => {
+const DetalleProducto = () => {
   const { id } = useParams();
   const [receta, setReceta] = useState({});
   useEffect(() => {
     obtenerReceta();
   }, []);
+  const navigate = useNavigate();
 
   const obtenerReceta = async () => {
     const respuesta = await leerRecetaPorId(id);
@@ -37,6 +39,15 @@ const DetalleProducto = ({ buscarReceta }) => {
           </p>
           <strong>Categoría: </strong>
           {receta.categoria}
+          <p>
+            <em>Receta recomendada para compartir en familia 🍴</em>
+          </p>
+          <Button
+            variant="primary"
+            onClick={() => navigate(`/recetas/${receta._id}`)}
+          >
+            Ver receta completa
+          </Button>
         </Col>
       </Row>
     </Container>

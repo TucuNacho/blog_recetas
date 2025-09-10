@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { useParams } from "react-router";
 import { leerRecetaPorId } from "../../helpers/queries";
-const Recetas = ({ verReceta }) => {
+const Recetas = () => {
   const [receta, setReceta] = useState(null);
   const { id } = useParams();
   useEffect(() => {
@@ -48,7 +48,7 @@ const Recetas = ({ verReceta }) => {
 
       <Row>
         <Col></Col>
-        <h4>Metodo de prepracion de</h4>
+        <h4>Metodo de prepracion</h4>
         <p>{receta.metodoPreparacion}</p>
       </Row>
       <Row>

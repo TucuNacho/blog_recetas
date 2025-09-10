@@ -45,7 +45,6 @@ const FormularioProducto = ({ titulo }) => {
   const agregarRecetas = async (receta) => {
     const recetaParaEnviar = {
       ...receta,
-      ingredientes: receta.ingredientes.split(",").map((i) => i.trim()),
       metodoPreparacion: receta.metodoPreparacion.replace(/\n/g, " "),
       descripcion_breve: receta.descripcion_breve.replace(/\n/g, " "),
       descripcion_amplia: receta.descripcion_amplia.replace(/\n/g, " "),
@@ -222,21 +221,31 @@ const FormularioProducto = ({ titulo }) => {
           <Form.Control
             type="text"
             placeholder="Huevos, papas, etc..."
-            rows={4}
             {...register("ingredientes", {
               required: "Los ingredientes son obligatorios",
-              minLength: {
-                value: 10,
-                message:
-                  "El metodo de preparacion debe tener al menos 10 caracteres",
+              validate: (value) => {
+                const lista = value
+                  .split(",")
+                  .map((i) => i.trim())
+                  .filter(Boolean);
+
+                if (lista.length === 0) {
+                  return "Debes ingresar al menos un ingrediente";
+                }
+
+                if (lista.some((i) => i.length < 2)) {
+                  return "Cada ingrediente debe tener al menos 2 caracteres";
+                }
+
+                return true;
               },
             })}
           />
-          <Form.Text className="text-danger"></Form.Text>
+          <Form.Text className="text-danger">
+            {errors.ingredientes?.message}
+          </Form.Text>
         </Form.Group>
-        <Form.Text className="text-danger">
-          {errors.ingredientes?.message}
-        </Form.Text>
+
         <Button type="submit" variant="success">
           Guardar
         </Button>

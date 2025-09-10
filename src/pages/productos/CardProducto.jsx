@@ -15,7 +15,11 @@ const CardProducto = ({receta}) => {
         <Card.Body>
           <Card.Title className="primary-font">{receta.nombreProducto}</Card.Title>
           <Card.Text>
+            <strong>Receta: </strong>
+            {receta.nombreReceta} <br className="mb-2" />
+            <strong>Descripcion: </strong>
             {receta.descripcion_breve} <br className="mb-2" />
+
           </Card.Text>
         </Card.Body>
         <Card.Footer className="justify-content-between d-flex">

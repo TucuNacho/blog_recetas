@@ -1,13 +1,19 @@
 import CardProducto from "./productos/CardProducto";
-import { Container, Row} from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { leerReceta } from "../helpers/queries";
-const Inicio = () => {
+const Inicio = ({ recetas }) => {
   const [listaRecetas, setListaRecetas] = useState([]);
-
+  const categorias = [
+    "Carne y pollo",
+    "Bebidas",
+    "Postres",
+    "Ensaladas",
+    "Otros...",
+  ];
   useEffect(() => {
     obtenerReceta();
-  },[]);
+  }, []);
 
   const obtenerReceta = async () => {
     const respuesta = await leerReceta();
@@ -32,9 +38,22 @@ const Inicio = () => {
           <hr></hr>
           <h2 className="text-center">Pollo y Carne</h2>
         </div>
-        <Row>
-          {listaRecetas.map((receta)=> <CardProducto key={receta._id} receta={receta}></CardProducto>)}
-        </Row>
+        {categorias.map((categoria) => {
+          const categoriaReceta = listaRecetas.filter(
+            (receta) => receta.categoria === categoria
+          );
+          if (categoriaReceta.length === 0) return null
+          return (
+            <div key={categoria} className="my-4">
+              <h2>{categoria}</h2>
+              <Row>
+                {categoriaReceta.map((receta) => (
+                  <CardProducto key={receta._id} receta={receta}></CardProducto>
+                ))}
+              </Row>
+            </div>
+          );
+        })}
       </Container>
     </section>
   );
