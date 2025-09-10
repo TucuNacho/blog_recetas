@@ -50,12 +50,7 @@ const ItemProducto = ({ producto, fila, setListaRecetas }) => {
     <tr>
       <td className="text-center">{fila}</td>
 
-<<<<<<< HEAD
-      <td>{producto.nombreProducto}</td>
-
-=======
       <td>{producto.nombreReceta}</td>
->>>>>>> dev
 
       <td className="text-center">
         <img
