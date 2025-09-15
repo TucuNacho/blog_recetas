@@ -2,9 +2,9 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { login } from "../helpers/queries";
 const Login = ({ setUser }) => {
-    const [listaRecetas, setListaRecetas] = useState([]);
-
   const {
     register,
 
@@ -13,20 +13,30 @@ const Login = ({ setUser }) => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const iniciarSesion = (usuario) => {
-    if (
-      usuario.mail === import.meta.env.VITE_API_MAIL &&
-      usuario.pass === import.meta.env.VITE_API_PASS
-    ) {
-      setUser(true);
-      sessionStorage.setItem("userKey", true);
+  const iniciarSesion = async (usuario) => {
+    const respuesta = await login(usuario);
+    if (respuesta.status === 200) {
+      const datosUsuario = await respuesta.json();
+      setUser({ Username: datosUsuario.username, token: datosUsuario.token });
+      Swal.fire({
+        title: "Inicio de sesion correcto!",
+
+        text: `Bienvenido ${datosUsuario.Username} !`,
+
+        icon: "success",
+      });
       navigate("/administrador");
     } else {
-      console.error("Usuario o contraseña incorrectos");
+      Swal.fire({
+        title: "Error al iniciar sesion",
+
+        text: `Credenciales incorrectas`,
+
+        icon: "error",
+      });
     }
   };
 
-  
   return (
     <section className="container my-3">
       <h1 className="text-center">Login</h1>
@@ -56,7 +66,7 @@ const Login = ({ setUser }) => {
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
                 type="password"
-                {...register("pass", {
+                {...register("password", {
                   required: "La contraseña es obligatoria",
                   pattern: {
                     value:

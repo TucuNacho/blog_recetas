@@ -7,8 +7,7 @@ import { NavLink, useNavigate } from "react-router";
 const Menu = ({ userAdmin, setUsuarioAdmin }) => {
   const navigate = useNavigate();
   const cerrarSesion = () => {
-    setUsuarioAdmin(false);
-    sessionStorage.removeItem("userKey");
+    setUsuarioAdmin({});
     navigate("/login");
   };
   return (
@@ -23,7 +22,7 @@ const Menu = ({ userAdmin, setUsuarioAdmin }) => {
             <NavLink to="/" className="nav-link link-light fw-bold text-start">
               INICIO
             </NavLink>
-            {userAdmin ? (
+            {userAdmin.token ? (
               <>
                 <NavLink
                   to="/administrador"
@@ -40,16 +39,27 @@ const Menu = ({ userAdmin, setUsuarioAdmin }) => {
                     boxShadow: "none",
                     textAlign: "left !important",
                     justifyContent: "flex-start",
-                    display: "flex"
+                    display: "flex",
                   }}
                 >
                   CERRAR SESION
                 </Button>
               </>
             ) : (
-              <NavLink to="/login" className="nav-link link-light fw-bold text-start">
-                INICIAR SESION
-              </NavLink>
+              <>
+                <NavLink
+                  to="/login"
+                  className="nav-link link-light fw-bold text-start"
+                >
+                  INICIAR SESION
+                </NavLink>
+                <NavLink
+                  to="/registro"
+                  className="nav-link link-light fw-bold text-start"
+                >
+                  REGISTRARSE
+                </NavLink>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>
