@@ -1,4 +1,7 @@
 const urlRecetas = import.meta.env.VITE_API_RECETAS;
+const urlUsuario = import.meta.env.VITE_API_USUARIO;
+console.log("URL Usuario:", urlUsuario)
+
 
 export const crearRecetas = async (nuevaReceta) => {
   try {
@@ -63,3 +66,21 @@ export const editarRecetas = async (recetaEditada, id) => {
     return null;
   }
 };
+
+export const login = async (datosUsuario) => {
+  try {
+    console.log("Datos que se envían:", datosUsuario);
+    const respuesta = await fetch(urlUsuario + "/login",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datosUsuario),
+    });
+    console.log("Status de respuesta:", respuesta.status)
+    return respuesta
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

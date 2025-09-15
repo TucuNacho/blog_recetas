@@ -17,9 +17,17 @@ import { v4 as uuidv4 } from "uuid";
 // import IngredientesForm from "./pages/productos/IngredientesForm";
 
 function App() {
-  const usuarioLogueado = sessionStorage.getItem("userKey") || false;
+  const usuarioLogueado = JSON.parse(sessionStorage.getItem("userKey")) || {};
   const [productos, setProductos] = useState([]);
   const [usuarioAdmin, setUsuarioAdmin] = useState(usuarioLogueado);
+
+  useEffect(() => {
+    localStorage.setItem("productos", JSON.stringify(productos));
+  }, [productos]);
+
+  useEffect(() => {
+    sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
+  }, [usuarioAdmin]);
 
   const agregarReceta = (nuevaReceta) => {
     nuevaReceta.id = uuidv4();
