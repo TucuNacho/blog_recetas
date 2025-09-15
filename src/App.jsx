@@ -13,8 +13,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useState, useEffect } from "react";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-// import IngredientesForm from "./pages/productos/IngredientesForm";
+import Registro from "./pages/Registro";
 
 function App() {
   const usuarioLogueado = JSON.parse(sessionStorage.getItem("userKey")) || {};
@@ -28,45 +27,24 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem("userKey", JSON.stringify(usuarioAdmin));
   }, [usuarioAdmin]);
-
-  const agregarReceta = (nuevaReceta) => {
-    nuevaReceta.id = uuidv4();
-    setProductos([...productos, nuevaReceta]);
-    return true;
-  };
-  const borrarReceta = (idReceta) => {
-    const recetaFiltrada = productos.filter((receta) => receta.id !== idReceta);
-    setProductos(recetaFiltrada);
-    return true;
-  };
-  const prepararReceta = (idReceta) => {
-    const recetaEditar = productos.find((receta) => receta.id === idReceta);
-    return recetaEditar;
-  };
-  const editarReceta = (idReceta, recetaActualizada) => {
-    const recetaEditada = productos.map((receta) => {
-      if (receta.id === idReceta) {
-        return {
-          ...receta,
-          ...recetaActualizada,
-        };
-      } else {
-        return receta;
-      }
-    });
-    setProductos(recetaEditada);
-    return true;
-  };
   return (
-    <div className="bg-dark text-light min-vh-100">
+    <div className="bg-dark text-light min-vh-100"
+    style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}
+    >
       <BrowserRouter>
         <Menu userAdmin={usuarioAdmin} setUsuarioAdmin={setUsuarioAdmin} />
-        <main>
+        <main
+        style={{flexGrow: 1}}
+        >
           <Routes>
             <Route path="/" element={<Inicio recetas={productos} />} />
             <Route
               path="/login"
               element={<Login setUser={setUsuarioAdmin} />}
+            />
+            <Route
+              path="/registro"
+              element={<Registro />}
             />
             <Route
               path="/administrador"
@@ -78,7 +56,6 @@ function App() {
                   <Administrador
                     productos={productos}
                     setProductos={setProductos}
-                    borrar={borrarReceta}
                   />
                 }
               />
@@ -86,7 +63,6 @@ function App() {
                 path="crear"
                 element={
                   <FormularioProducto
-                    agregarReceta={agregarReceta}
                     titulo={"Creando receta"}
                   />
                 }
@@ -95,20 +71,18 @@ function App() {
                 path="editar/:id"
                 element={
                   <FormularioProducto
-                    editarReceta={prepararReceta}
                     titulo="Editando Receta"
-                    recetaEditada={editarReceta}
                   />
                 }
               ></Route>
             </Route>
             <Route
               path="/detalle/:id"
-              element={<DetalleProducto buscarReceta={prepararReceta} />}
+              element={<DetalleProducto/>}
             />
             <Route
               path="/recetas/:id"
-              element={<Recetas verReceta={prepararReceta} />}
+              element={<Recetas />}
             />
             <Route path="*" element={<Error404></Error404>}></Route>
           </Routes>
